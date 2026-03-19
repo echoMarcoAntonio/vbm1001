@@ -1,0 +1,22 @@
+       fd vbm-ttrs
+           label record standard.
+
+       01 reg-ttrs.
+          03 ttrs-chave.
+             05 ttrs-cd-tutor                        pic 9(7).
+          03 ttrs-chave-1.
+             05 ttrs-cpf                             pic 9(11).
+          03 ttrs-chave-2.
+             05 ttrs-nome                            pic x(30).
+          03 ttrs-fone.
+             05 ttrs-ddd                             pic 9(02).
+             05 ttrs-prefixo                         pic 9(05).
+             05 ttrs-sufixo                          pic 9(04).
+          03 ttrs-endereco.
+             05 ttrs-rua                             pic x(30).
+             05 ttrs-numero                          pic 9(12).
+             05 ttrs-bairro                          pic x(30).
+             05 ttrs-cidade                          pic x(30).
+             05 ttrs-cep                             pic 9(08).
+             05 ttrs-uf                              pic x(02).
+          03 ttrs-qtd-pets                           pic 9(02).
