@@ -98,7 +98,7 @@
 
       * botaumzes
 
-         03 b-novo
+         03 t01-pb-novo
             push-button
             title "Novo"
             line 4
@@ -109,7 +109,7 @@
             1011
             self-act.
 
-         03 b-editar
+         03 t01-pb-editar
             push-button
             title "Editar"
             line 4
@@ -120,7 +120,7 @@
             1011
             self-act.
 
-         03 b-excluir
+         03 t01-pb-excluir
             push-button
             title "Excluir"
             line 4
@@ -131,7 +131,7 @@
             1011
             self-act.
 
-         03 b-primeiro
+         03 t01-pb-primeiro
             push-button
             title "<<"
             line 4
@@ -142,7 +142,7 @@
             1011
             self-act.
 
-         03 b-anterior
+         03 t01-pb-anterior
             push-button
             title "<"
             line 4
@@ -152,7 +152,7 @@
             exception-value 1012
             self-act.
 
-           03 b-proximo
+           03 t01-pb-proximo
             push-button
             title ">"
             line 4
@@ -162,7 +162,7 @@
             exception-value 1013
             self-act.
 
-           03 b-ultimo
+           03 t01-pb-ultimo
             push-button
            title ">>"
             line 4
@@ -172,7 +172,7 @@
             exception-value 1014
             self-act.
 
-           03 b-salvar
+           03 t01-pb-salvar
             push-button
             title "Salvar"
             line 26
@@ -182,7 +182,7 @@
             exception-value 1015
             self-act.
 
-           03 b-cancelar
+           03 t01-pb-cancelar
             push-button
            title "Cancelar"
             line 26

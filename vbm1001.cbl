@@ -161,16 +161,49 @@
            modify t01-ef-rua-tutor          enabled false.
            modify t01-ef-qtd-pets-tutor     enabled false.
       *
+       habilitar-navegacao.
+           modify t01-pb-novo               enabled true.
+           modify t01-pb-editar             enabled true.
+           modify t01-pb-excluir            enabled true.
+           modify t01-pb-primeiro           enabled true.
+           modify t01-pb-proximo            enabled true.
+           modify t01-pb-anterior           enabled true.
+           modify t01-pb-ultimo             enabled true.
+      *
+       desabilitar-navegacao.
+           modify t01-pb-novo               enabled false.
+           modify t01-pb-editar             enabled false.
+           modify t01-pb-excluir            enabled false.
+           modify t01-pb-primeiro           enabled false.
+           modify t01-pb-proximo            enabled false.
+           modify t01-pb-anterior           enabled false.
+           modify t01-pb-ultimo             enabled false.
+      *
        limpa-tela.
            initialize screen-t01.
            perform modificar-componentes.
       *
        novo.
            perform limpa-tela.
-           perform mover-tela-para-registro.
-           read vbm-tuto with no lock.
-           perform habilitar-componentes.
+           move high-value to tuto-cd-tutor.
+           start vbm-tuto key < vbm-chave.
+           read vbm-tuto previous with no lock
+           move tuto-cd-tutor to s01-cd-tutor.
+           if valid-vbm-tuto
+              add 1 to s01-cd-tutor
+           end-if.
       *
+       campo_enter.
+           if s01-cd-tutor not equal zeros && s01-cd-tutor not null
+              display "Codigo ja existente"
+           else-if.,
+              perform habilitar-componentes
+              perform desabilitar-navegacao
+              modify t01-ef-cd-tutor enabled false
+              perform chamarcampoenter
+              set wss-inclusao to true
+           end-if.
+
        mover-registro-para-tela.
            initialize screen-t01.
            move tuto-cpf-tutor              to s01-cpf-tutor.
@@ -209,10 +242,20 @@
            move s01-qtd-pets-tutor          to tuto-qtd-pets-tutor.
       *
        salvar.
+           perform mover-tela-para-registro.
+           perform desabilitar-componentes.
+           set wss-pesquisa to true.
       *
        editar.
+           move s01-cd-tutor to ttrs-cd-tutor
+           read vbm-tuto with no lock
+           if not valid-vbm-tuto or not equal zeros
+              perform
+
       *
        cancelar.
+      *    tem certeza
+      *     perform limpa-tela.
       *
        excluir.
       *
