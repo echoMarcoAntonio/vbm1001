@@ -72,52 +72,36 @@
            perform abrir-arquivos.
            perform inicio-programa.
            perform fechar-arquivos.
-           perform fim-programa.
       *
        abrir-arquivos.
            open i-o vbm-tuto.
            if not valid-vbm-tuto
-              display message box "erro ao abrir o arquivo tutores!"
-                                  "status: " fs-vbm-tuto
-              go to fim-programa
+              display message box "ERRO ao abrir o arquivo tutores!"
+                                  " status: " fs-vbm-tuto
+              exit paragraph
            end-if.
-      *
-       fechar-arquivos.
-           close vbm-tuto.
       *
        inicio-programa.
            set wss-pesquisa to true.
            display standard graphical window
               lines 30
               size 102
-              title "cadastro de tuto".
+              title "VBM v0.0.1. Cadastro de Tutores".
            display tela-menu.
            perform with test after until esc-key
               accept tela-menu on exception
-                 perform modificar-componentes
+                 perform controle-componentes
               end-accept
            end-perform.
       *
-       fim-programa.
-           exit program.
-      *
-       modificar-componentes.
-           modify t01-ef-cd-tutor           value s01-cd-tutor.
-           modify t01-ef-fone-tutor         value s01-fone-tutor.
-           modify t01-ef-qtd-pets-tutor     value s01-qtd-pets-tutor.
-           modify t01-ef-cidade-tutor       value s01-cidade-tutor.
-           modify t01-ef-uf-tutor           value s01-uf-tutor.
-           modify t01-ef-cep-tutor          value s01-cep-tutor.
-           modify t01-ef-rua-tutor          value s01-rua-tutor.
-           modify t01-ef-numero-tutor       value s01-numero-tutor.
-           modify t01-ef-qtd-pets-tutor     value s01-qtd-pets-tutor.
+       fechar-arquivos.
+           close vbm-tuto.
+           goback.
       *
        controle-componentes.
            evaluate true
               when f2-key
                  perform buscar-codigo
-              when esc-key
-                 perform fim-programa
               when novo-key
                  perform novo
               when editar-key
@@ -138,6 +122,17 @@
                  perform cancelar
            end-evaluate.
       *
+       modificar-componentes.
+           modify t01-ef-cd-tutor           value s01-cd-tutor.
+           modify t01-ef-fone-tutor         value s01-fone-tutor.
+           modify t01-ef-qtd-pets-tutor     value s01-qtd-pets-tutor.
+           modify t01-ef-cidade-tutor       value s01-cidade-tutor.
+           modify t01-ef-uf-tutor           value s01-uf-tutor.
+           modify t01-ef-cep-tutor          value s01-cep-tutor.
+           modify t01-ef-rua-tutor          value s01-rua-tutor.
+           modify t01-ef-numero-tutor       value s01-numero-tutor.
+           modify t01-ef-qtd-pets-tutor     value s01-qtd-pets-tutor.
+      *
        habilitar-componentes.
            modify t01-ef-cpf-tutor          enabled true.
            modify t01-ef-nome-tutor         enabled true.
@@ -152,13 +147,14 @@
       *
        desabilitar-componentes.
            modify t01-ef-cpf-tutor          enabled true.
-           modify t01-ef-nome-tutor         enabled false.
+           modify t01-ef-nome-tutor         enabled true.
            modify t01-ef-fone-tutor         enabled false.
            modify t01-ef-uf-tutor           enabled false.
            modify t01-ef-cep-tutor          enabled false.
            modify t01-ef-cidade-tutor       enabled false.
            modify t01-ef-bairro-tutor       enabled false.
            modify t01-ef-rua-tutor          enabled false.
+           modify t01-ef-numero-tutor       enabled false.
            modify t01-ef-qtd-pets-tutor     enabled false.
       *
        habilitar-navegacao.
@@ -181,29 +177,8 @@
       *
        limpa-tela.
            initialize screen-t01.
-           perform modificar-componentes.
+           display tela-menu.
       *
-       novo.
-           perform limpa-tela.
-           move high-value to tuto-cd-tutor.
-           start vbm-tuto key < vbm-chave.
-           read vbm-tuto previous with no lock
-           move tuto-cd-tutor to s01-cd-tutor.
-           if valid-vbm-tuto
-              add 1 to s01-cd-tutor
-           end-if.
-      *
-       campo_enter.
-           if s01-cd-tutor not equal zeros && s01-cd-tutor not null
-              display "Codigo ja existente"
-           else-if.,
-              perform habilitar-componentes
-              perform desabilitar-navegacao
-              modify t01-ef-cd-tutor enabled false
-              perform chamarcampoenter
-              set wss-inclusao to true
-           end-if.
-
        mover-registro-para-tela.
            initialize screen-t01.
            move tuto-cpf-tutor              to s01-cpf-tutor.
@@ -241,17 +216,64 @@
            move s01-numero-tutor            to tuto-numero-tutor.
            move s01-qtd-pets-tutor          to tuto-qtd-pets-tutor.
       *
+       navegar-registros.
+           perform limpa-tela.
+           perform mover-registro-para-tela.
+           perform modificar-componentes.
+      *
+       campo_enter.
+           if s01-cd-tutor not equal zeros and
+              s01-cd-tutor not equal null then
+              display "Codigo ja existente"
+           else
+              perform habilitar-componentes
+              perform desabilitar-navegacao
+              modify t01-ef-cd-tutor enabled false
+              perform chamarcampoenter
+              set wss-inclusao to true
+           end-if.
+      *
+       chamar-campoenter.
+      *
+       novo.
+           if wss-inclusao
+              perform limpa-tela
+              perform desabilitar-navegacao
+              perform habilitar-componentes
+              perform mover-tela-para-registro
+              read vbm-tuto with no lock
+           else
+           if not valid-vbm-tuto
+           display message box "erro ao abrir o arquivo tutores!"
+                               "status: " fs-vbm-tuto
+           end-if.
+           set wss-inclusao to true.
+      *
        salvar.
            perform mover-tela-para-registro.
-           perform desabilitar-componentes.
+           if wss-inclusao
+              write reg-tuto
+              display message box "Sucesso ao incluir tutor!"
+           end-if.
+           if wss-alteracao
+              rewrite reg-tuto
+              display message box "Dados regravados com sucresso!"
+           end-if.
+           if not valid-vbm-tuto
+              display message box "erro ao abrir o arquivo tutores!"
+                                  "status: " fs-vbm-tuto
+              perform desabilitar-componentes
+           else
+              perform limpa-tela
+           end-if.
            set wss-pesquisa to true.
       *
        editar.
-           move s01-cd-tutor to ttrs-cd-tutor
-           read vbm-tuto with no lock
-           if not valid-vbm-tuto or not equal zeros
-              perform
-
+      *     move s01-cd-tutor to ttrs-cd-tutor
+      *     read vbm-tuto with no lock
+      *     if not valid-vbm-tuto or not equal zeros
+      *        perform
+      *    set wss-inclusao to true.
       *
        cancelar.
       *    tem certeza
@@ -276,6 +298,22 @@
        ultimo.
       *
        proximo.
+           move high-value to tuto-cd-tutor.
+           start vbm-tuto key > tuto-cd-tutor
+           read vbm-tuto previous with no lock.
+           if not valid-vbm-tuto
+              display message box "fim registro"
+           else
+              perform navegar-registros
+           end-if.
       *
        anterior.
+           move low-value to tuto-cd-tutor.
+           start vbm-tuto key < tuto-cd-tutor.
+           read vbm-tuto previous with no lock.
+           if not valid-vbm-tuto
+              display message box "primeiro registro"
+           else
+              perform navegar-registros
+           end-if.
       *
