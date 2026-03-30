@@ -3,18 +3,21 @@
 
        01 reg-tuto.
           03 tuto-chave-tutor.
-             05 tuto-cd-tutor                        pic 9(7).
+             05 tuto-cd-tutor                        pic 9(07).
           03 tuto-chave-tutor-1.
-             05 tuto-cpf-tutor                       pic 9(11).
+             05 tuto-rn-tutor                        pic x(18).
           03 tuto-chave-tutor-2.
-             05 tuto-nome-tutor                      pic x(30).
-          03 tuto-ddd-tutor                          pic 9(02).
-          03 tuto-prefixo-tutor                      pic 9(05).
-          03 tuto-sufixo-tutor                       pic 9(04).
+             05 tuto-nm-tutor                        pic x(30).
+          03 tuto-contato-tutor.
+             05 tuto-ddd-tutor                       pic 9(03).
+             05 tuto-fone-tutor                      pic 9(09).
+          03 tuto-tp-pessoa-tutor                    pic 9(01).
+             88 tuto-fisica-tutor                    value 1.
+             88 tuto-juridica-tutor                  value 2.
+          03 tuto-qtd-pets-tutor                     pic 9(02).
           03 tuto-uf-tutor                           pic x(02).
-          03 tuto-cep-tutor                          pic 9(08).
+          03 tuto-cep-tutor                          pic x(09).
           03 tuto-cidade-tutor                       pic x(30).
           03 tuto-bairro-tutor                       pic x(30).
           03 tuto-rua-tutor                          pic x(30).
           03 tuto-numero-tutor                       pic 9(12).
-          03 tuto-qtd-pets-tutor                     pic 9(02).
